@@ -40,7 +40,7 @@
             </div>
         </form>
        
-        <input type="submit" value="OK" @click="onclick"/>
+        <input type="submit" value="OK" @click="onclick(txt)"/>
         <span >当前已录入条{{arr_length}}</span>
     </div>
 </body>
@@ -55,31 +55,50 @@
            arr_length:0,
         },
         methods: {
-            onclick:function (){
+            onclick:function (type){
                 if(this.label == '' || this.text == ''){
                     alert("请填写完整！")
                     return false
                 }
-                var obj_temp={
+                if(type == "json"){
+                    var name = this.label
+                    var obj_temp={
                     "label":this.label,
                     "text":this.text
-                }
-
-                this.arr.push(obj_temp)
-                this.arr_length =this.arr.length
-                this.label ='';
-                this.text='';
-
-                //对获得的数据进行编辑 
-                if(this.arr.length == 10){
-                    var OBJ ={
-                        array:this.arr
                     }
-                    var content = JSON.stringify(OBJ);
-                    var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
-                    saveAs(blob, "caijunbao.json");
+
+                    this.arr.push(obj_temp)
+                    this.arr_length =this.arr.length
+                    this.label ='';
+                    this.text='';
+
+                    if(this.arr.length == 10){
+                        var OBJ ={
+                            array:this.arr
+                        }
+                        var content = JSON.stringify(OBJ);
+                        var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
+                        var file_name = name +".json"
+                        saveAs(blob, file_name);
+                        this.arr_length = 0
+                    }
+                }else{
+                    var name = this.label
+                    var str = this.label +"\t"+this.text
+                    this.arr.push(str)
+                    this.arr_length =this.arr.length
+                    this.label ='';
+                    this.text='';
+
+                    var long_str = this.arr.toString().replace(/,/g,'\n')
+                    if(this.arr.length == 1){
+                        var blob = new Blob([long_str], {type: "text/plain;charset=utf-8"});
+                        var file_name = name +".txt"
+                        saveAs(blob, file_name);
+                        this.arr_length = 0
+                    }
                 }
-                console.log(this.arr)
+                
             }
         }
         })
