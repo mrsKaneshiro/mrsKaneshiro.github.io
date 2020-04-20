@@ -21,6 +21,15 @@
                 <label  id="3" for="fengshimianyike" style="margin-left: 10px;">风湿免疫科</label>
                 <input type="radio" name="sex" value="风湿免疫科" v-model="label"/>
             </div>
+            <br/>
+            <div style="margin-top: 10px;">
+                <label id="4" for="fuchanke">妇产科</label>
+                <input type="radio" name="sex"  value="妇产科" v-model="label"/>
+                <label  id="5" for="gandanyixianwaike" style="margin-left: 10px;">肝胆胰腺外科</label>
+                <input type="radio" name="sex" value="肝胆胰腺外科" v-model="label"/>
+                <label  id="6" for="ganranke" style="margin-left: 10px;">感染科 传染科</label>
+                <input type="radio" name="sex" value="感染科 传染科" v-model="label"/>
+            </div>
         </form>
         <br />
         <form>
@@ -62,7 +71,7 @@
                 this.text='';
 
                 //对获得的数据进行编辑 
-                if(this.arr.length == 2){
+                if(this.arr.length == 10){
                     var OBJ ={
                         array:this.arr
                     }
@@ -70,7 +79,7 @@
                     var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
                     saveAs(blob, "caijunbao.json");
                 }
-                console.log("完成")
+                console.log(this.arr)
             }
         }
         })
