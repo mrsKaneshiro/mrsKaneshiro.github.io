@@ -72,7 +72,7 @@
                     this.label ='';
                     this.text='';
 
-                    if(this.arr.length == 2){
+                    if(this.arr.length == 10){
                         var OBJ ={
                             array:this.arr
                         }
@@ -91,7 +91,7 @@
                     this.text='';
 
                     var long_str = this.arr.toString().replace(/,/g,'\n')
-                    if(this.arr.length == 2){
+                    if(this.arr.length == 10){
                         var blob = new Blob([long_str], {type: "text/plain;charset=utf-8"});
                         var file_name = name +".txt"
                         saveAs(blob, file_name);
