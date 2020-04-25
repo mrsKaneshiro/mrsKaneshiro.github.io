@@ -25,7 +25,6 @@ function findData(){
 
 function add(id,label,text){
     var  addSql = 'INSERT INTO list(id,label,text) VALUES(?,?,?)';
-    //var  addSqlParams = ['2','妇产科', '我这几次月经量比较少，而且痛经肚子痛，来例假的时候还会呕吐'];
     var  addSqlParams = [id,label,text];
     connection.query(addSql,addSqlParams,function (err, result) {
             if(err){
