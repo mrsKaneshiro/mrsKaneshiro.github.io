@@ -23,26 +23,31 @@ class connectDatebase{
         this.data = res
     }
 
-    async getTotalNumber(){
-        this.connection.connect();
+    getTotalNumber(){
+        connection.connect();
         var  sql = 'select * from list where id=(select MAX(id) from list )';
-        this.connection.query(sql,function(err, result){
+        var p = new Promise(function (resolve,reject){
+            connection.query(sql,function(err, result){
                 if(err){
                     console.log('[SELECT ERROR] - ',err.message);
+                    reject(err.message)
                     return;
                 }else{
-                    this.emitter.emit('get.totle.num',result[0].id); 
+                    resolve(result[0].id)
                 }
-        }.bind(this));
-       
+            }.bind(this));
+            })
+        p.then(function(data){
+            console.log("hhh",data)
+            this.add(data)
+        }.bind(this))
+        connection.end();
     }
 
-    async add(args){
-        //可接受外部传来的args
-        await this.getTotalNumber()
-        this.connection.end();
+    add(args){
+        console.log("add",args)
     }
 }
 
   var db = new connectDatebase(connection,emitter);
-  db.add("0")
+  db.getTotalNumber()
