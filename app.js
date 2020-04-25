@@ -41,7 +41,6 @@ function add(id,label,text){
 function getTotalNumber(){
     //获取数据库数据总量
     var  sql = 'select * from list where id=(select MAX(id) from list )';
-    var NOW_ID = 0
     connection.query(sql,function(err, result){
             if(err){
             console.log('[SELECT ERROR] - ',err.message);
@@ -49,27 +48,14 @@ function getTotalNumber(){
             }
     
         NOW_ID = result[0].id
-        return NOW_ID;
     });
 }
 
 //数据库操作开始
 connection.connect();
 
-var  sql = 'select * from list where id=(select MAX(id) from list )';
-var NOW_ID = 0
-connection.query(sql,function(err, result){
-        if(err){
-        console.log('[SELECT ERROR] - ',err.message);
-        return;
-        }
-    NOW_ID = result[0].id
-}.bind(this));
-
-var id = Number(NOW_ID)+1;
-console.log(id,NOW_ID)
-var label = '儿科';
-var text = '我家宝宝最近屁屁上张了很多斑点，有点像癣一样，还有点痒痒';
-add(id,label,text)
+// var label = '儿科';
+// var text = '我家宝宝最近屁屁上张了很多斑点，有点像癣一样，还有点痒痒';
+// add(id,label,text)
 connection.end();
 
