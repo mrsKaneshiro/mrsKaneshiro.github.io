@@ -1,5 +1,7 @@
 //引入数据库
 const mysql = require("mysql")
+const events = require('events'); 
+const emitter = new events.EventEmitter(); 
 
 //实现本地链接
 var connection = mysql.createConnection({
@@ -7,55 +9,40 @@ var connection = mysql.createConnection({
     user: 'root',
     password: 'cc931819',
     database: 'test'
-})
+}) 
 
-function findData(){
-    var  sql = 'SELECT * FROM list';
-    connection.query(sql,function (err, result) {
-            if(err){
-            console.log('[SELECT ERROR] - ',err.message);
-            return;
-            }
-    
-        console.log('--------------------------SELECT----------------------------');
-        console.log(result);
-        console.log('------------------------------------------------------------\n\n');  
-    });
+class connectDatebase{  
+    constructor(connection,emitter){
+        this.connection = connection;
+        this.emitter = emitter;
+        this.emitter.on("get.totle.num",this.getTotalNumberSuc)
+    }
+
+    getTotalNumberSuc(res){
+        console.log("触发成功！",res)
+        this.data = res
+    }
+
+    async getTotalNumber(){
+        this.connection.connect();
+        var  sql = 'select * from list where id=(select MAX(id) from list )';
+        this.connection.query(sql,function(err, result){
+                if(err){
+                    console.log('[SELECT ERROR] - ',err.message);
+                    return;
+                }else{
+                    this.emitter.emit('get.totle.num',result[0].id); 
+                }
+        }.bind(this));
+       
+    }
+
+    async add(args){
+        //可接受外部传来的args
+        await this.getTotalNumber()
+        this.connection.end();
+    }
 }
 
-function add(id,label,text){
-    var  addSql = 'INSERT INTO list(id,label,text) VALUES(?,?,?)';
-    //var  addSqlParams = ['2','妇产科', '我这几次月经量比较少，而且痛经肚子痛，来例假的时候还会呕吐'];
-    var  addSqlParams = [id,label,text];
-    connection.query(addSql,addSqlParams,function (err, result) {
-            if(err){
-             console.log('[INSERT ERROR] - ',err.message);
-             return;
-            }        
-           console.log('--------------------------INSERT----------------------------');
-           console.log('INSERT ID:',result);        
-           console.log('-----------------------------------------------------------------\n\n');  
-    });
-}
-
-function getTotalNumber(){
-    //获取数据库数据总量
-    var  sql = 'select * from list where id=(select MAX(id) from list )';
-    connection.query(sql,function(err, result){
-            if(err){
-            console.log('[SELECT ERROR] - ',err.message);
-            return;
-            }
-    
-        NOW_ID = result[0].id
-    });
-}
-
-//数据库操作开始
-connection.connect();
-
-// var label = '儿科';
-// var text = '我家宝宝最近屁屁上张了很多斑点，有点像癣一样，还有点痒痒';
-// add(id,label,text)
-connection.end();
-
+  var db = new connectDatebase(connection,emitter);
+  db.add("0")
