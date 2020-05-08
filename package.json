@@ -1,8 +1,8 @@
 {
-  "name": "01.webpack-BASE",
+  "name": "mrsKaneshiro.github.io",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "dev": "webpack-dev-server ",
     "test": "echo \"Error: no test specified\" && exit 1"
