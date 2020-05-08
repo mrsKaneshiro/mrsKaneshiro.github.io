@@ -6,16 +6,8 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Home from "./dataCheckPlatform/home"
 import Other from "./dataCheckPlatform/other"
 
-
 const { SubMenu } = Menu;
 
-/*分割线，以下部分是引入测试的页面--------------------------------------------------- */
-const mainPageJsx=(
-    <div>test</div>
-    
-)
-
-/*分割线--------------------------------------------------------------------------- */
 class Sidebar extends React.Component {
     constructor(props){
         super(props)
@@ -31,7 +23,7 @@ class Sidebar extends React.Component {
     render() {
         var sidebar=(
         <Router>
-            <div style={{ width: 226}}>
+            <div className="sidebar" style={{width:226,float:'left',backgroundColor:"#001529"}}>
                 <Menu
                     defaultSelectedKeys={['1']}
                     defaultOpenKeys={['sub1']}
@@ -48,6 +40,8 @@ class Sidebar extends React.Component {
                             <Menu.Item key="5">Option 8</Menu.Item>
                         </SubMenu>
                 </Menu>
+            </div>
+            <div style={{marginLeft:230}}>
                 <Route exact path="/" component={Home}/>
                 <Route path="/other" component={Other}/>
             </div>
@@ -58,5 +52,4 @@ class Sidebar extends React.Component {
   }
 
 
-ReactDom.render(<Sidebar></Sidebar>, document.getElementById("sidebar"));
-ReactDom.render(mainPageJsx, document.getElementById("app"));
+ReactDom.render(<Sidebar></Sidebar>, document.getElementById("root"));
