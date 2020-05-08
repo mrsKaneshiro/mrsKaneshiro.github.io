@@ -14,8 +14,8 @@
             <label>请从以下科室中选择一个：</label>
             <br/>
             <div style="margin-top: 10px;">
-                <label id="4" for="fuchanke">妇产科</label>
-                <input type="radio" name="label"  value="妇产科" v-model="label"/>
+                <label id="4" for="fuchanke">呼吸内科</label>
+                <input type="radio" name="label"  value="呼吸内科" v-model="label"/>
                 <label  id="5" for="gandanyixianwaike" style="margin-left: 10px;">肝胆胰腺外科</label>
                 <input type="radio" name="label" value="肝胆胰腺外科" v-model="label"/>
                 <label  id="6" for="ganranke" style="margin-left: 10px;">感染科 传染科</label>
@@ -60,10 +60,10 @@
     new Vue({
         el: '#app',
         data: {
-           label:'妇产科',
+           label:'呼吸内科',
            text:'',
            age:'',
-            sex:'女',
+            sex:'',
             illName:'',
            arr:[], //最终的数据
            arr_length:0,
@@ -78,7 +78,8 @@
                 
                 //id -- label -- illname -- sex --age -- text
                 var str = this.label +"\t"+this.illName+"\t"+this.sex+"\t"+this.age+"\t"+this.text
-                
+                //var str = this.label +"\t"+this.text
+
                 this.arr.push(str)
                 this.arr_length =this.arr.length
 
@@ -89,7 +90,7 @@
                 //this.sex = ''
 
                 var long_str = this.arr.toString().replace(/,/g,'\n')
-                if(this.arr.length == 10){
+                if(this.arr.length == 11){
                     var blob = new Blob([long_str], {type: "text/plain;charset=utf-8"});
                     var file_name = name +".txt"
                     saveAs(blob, file_name);

@@ -57,3 +57,25 @@ class connectDatebase{
   var label = '儿科';
   var text = '我家宝宝最近屁屁上张了很多斑点，有点像癣一样，还有点痒痒';
   db.add(label,text)
+
+
+
+
+  var id = null;
+  connection.query(sql,function(res){
+        //从mysql中获取id 
+        var id = res.id;
+        console.log("aa:",id) 
+  })
+  console.log("bb:",id) 
+
+
+/*
+  预计输出结果为： 
+  aa:2019
+  bb:2019
+
+  但是实际的输出结果为：
+  bb：null
+  aa：2019
+*/
