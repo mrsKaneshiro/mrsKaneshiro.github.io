@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 
-class Other extends React.Component{
+class dataCheck extends React.Component{
     constructor(props){
         super(props)
     }
 
     render(){
-        return (<div>Other page</div>)
+        return (<div>dataCheck page</div>)
     }
 }
 
-export default Other
+export default dataCheck

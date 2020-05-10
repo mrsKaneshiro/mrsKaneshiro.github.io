@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 
-class Home extends React.Component{
+class dataSetList extends React.Component{
     constructor(props){
         super(props)
     }
 
     render(){
-        return (<div>home page</div>)
+        return (<div>dataSetList page</div>)
     }
 }
 
-export default Home
+export default dataSetList
