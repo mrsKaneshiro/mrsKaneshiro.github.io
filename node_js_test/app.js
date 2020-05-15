@@ -12,54 +12,65 @@ var connection = mysql.createConnection({
 class connectDatebase{  
     constructor(connection){
         this.connection = connection;
+        this.max_id =0;
     }
 
-    getTotalNumber(type){
+    getTotalNumber(){
         connection.connect();
         var  sql = 'select * from list where id=(select MAX(id) from list )';
-        var p = new Promise(function (resolve,reject){
+        var p=new Promise(function(resolve,reject){
             connection.query(sql,function(err, result){
                 if(err){
                     console.log('[SELECT ERROR] - ',err.message);
-                    reject(err.message)
+                    reject(ErrorEvent)
                     return;
                 }else{
-                    resolve(result[0].id)
+                    resolve(result)
                 }
             }.bind(this));
-            })
-        
-        return p;
+        })
+        return p 
         
     }
 
     add(label,text){
-        var p = this.getTotalNumber()
-        p.then(function(data){
+        var p = this.getTotalNumber();
+        p.then(result=>{
             var  addSql = 'INSERT INTO list(id,label,text) VALUES(?,?,?)';
-            var  id =data+1
+            var  id =result[0].id+1
             var  addSqlParams = [id,label,text];
             connection.query(addSql,addSqlParams,function (err, result) {
                     if(err){
                     console.log('[INSERT ERROR] - ',err.message);
                     return;
                     }        
-                console.log('--------------------------INSERT----------------------------');
-                console.log('INSERT ID:',result);        
-                console.log('-----------------------------------------------------------------\n\n');  
             });
             connection.end();
-        }.bind(this))
+        })
+    }
+
+    find(){
+        connection.connect();
+        var  sql = 'select * from list';
+        connection.query(sql,function(err, result){
+            if(err){
+                console.log('[SELECT ERROR] - ',err.message);
+                return;
+            }else{
+                console.log(result)
+            }
+        }.bind(this));
+        connection.end();
     }
 }
 
   var db = new connectDatebase(connection);
   var label = '儿科';
-  var text = '我家宝宝最近屁屁上张了很多斑点，有点像癣一样，还有点痒痒';
+  var text = '测试';
   db.add(label,text)
-
-
-
+  //每次只能发送一个请求
+  //db.find()
+/*
 
   var id = null;
   connection.query(sql,function(res){
@@ -69,8 +80,6 @@ class connectDatebase{
   })
   console.log("bb:",id) 
 
-
-/*
   预计输出结果为： 
   aa:2019
   bb:2019
